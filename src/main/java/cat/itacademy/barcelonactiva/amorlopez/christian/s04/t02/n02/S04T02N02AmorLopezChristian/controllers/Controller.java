@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import cat.itacademy.barcelonactiva.amorlopez.christian.s04.t02.n02.S04T02N02AmorLopezChristian.model.domain.FruitaEntity;
 import cat.itacademy.barcelonactiva.amorlopez.christian.s04.t02.n02.S04T02N02AmorLopezChristian.model.services.FruitaEntityServiceImp;
@@ -36,7 +38,7 @@ public class Controller {
 		if (fruitaEntity != null){
 			return ResponseEntity<>(fruitaEntity, HttpStatus.OK);
 		} else {
-			return ResponseEntity<>(fruitaEntity, HttpStatus.NOT_FOUND);
+			return ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
 	
