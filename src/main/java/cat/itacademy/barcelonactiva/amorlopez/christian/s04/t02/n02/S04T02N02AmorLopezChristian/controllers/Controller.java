@@ -2,6 +2,7 @@ package cat.itacademy.barcelonactiva.amorlopez.christian.s04.t02.n02.S04T02N02Am
 
 import java.util.List;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ public class Controller {
 	@PostMapping("/add")
 	public ResponseEntity<FruitaEntity> createFruitaEntity(@RequestBody FruitaEntity fruita) {
 		FruitaEntity fruitaEntity = fruitaEntityServiceImp.save(fruita);
-		return ResponseEntity<>(fruitaEntity, HttpStatus.CREATED);
+		return ResponseEntity.status(HttpStatus.CREATED).body(fruitaEntity);
 	}
 	
 	@PutMapping("/update/{id}")
@@ -36,16 +37,17 @@ public class Controller {
 		FruitaEntity fruitaEntity = fruitaEntityServiceImp.update(id, fruita);
 		
 		if (fruitaEntity != null){
-			return ResponseEntity<>(fruitaEntity, HttpStatus.OK);
+			return ResponseEntity.status(HttpStatus.OK).body(fruitaEntity);
 		} else {
-			return ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
 	}
 	
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> deleteFruitaEntity (@PathVariable int id) {
-		fruitaEntityServiceImp.delete(id);
-		return ResponseEntity<>(HttpStatus.NO_CONTENT);	
+		String mensaje = fruitaEntityServiceImp.delete(id);
+			
+		return ResponseEntity.ok(mensaje);
 	}
 	
 	@GetMapping("/getAll")
@@ -53,24 +55,22 @@ public class Controller {
 		List<FruitaEntity> fruites = fruitaEntityServiceImp.findAll();
 		
 		if (fruites.isEmpty()){
-			return ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		} else {
-			return ResponseEntity<>(fruites, HttpStatus.OK);	
+			return ResponseEntity.status(HttpStatus.OK).body(fruites);
 		}
 	}
 	
 	@GetMapping("/getOne/{id}")
 	public ResponseEntity<FruitaEntity> getOneFruitaEntity (@PathVariable int id){
-		FruitaEntity fruitaEntity = fruitaEntityServiceImp.findById(id);
+		Optional<FruitaEntity> fruitaEntityOptional = fruitaEntityServiceImp.findById(id);
 		
-		if (fruitaEntity != null){
-			return ResponseEntity<>(fruitaEntity, HttpStatus.OK);
+		if (fruitaEntityOptional.isPresent()){ // Optional sirve para saber si es o no nulo.
+			return ResponseEntity.status(HttpStatus.OK).body(fruitaEntityOptional.get());
 		} else {
-			return ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
 	}
 
 	}
 	
-
-}

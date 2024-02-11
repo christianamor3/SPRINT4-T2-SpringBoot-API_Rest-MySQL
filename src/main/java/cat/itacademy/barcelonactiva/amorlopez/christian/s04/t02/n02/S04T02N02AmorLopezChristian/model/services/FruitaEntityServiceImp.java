@@ -1,6 +1,8 @@
 package cat.itacademy.barcelonactiva.amorlopez.christian.s04.t02.n02.S04T02N02AmorLopezChristian.model.services;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,8 +41,8 @@ public class FruitaEntityServiceImp implements FruitaEntityService{
 	}
 
 	
-	public FruitaEntity findById(int id) {
-		return fruitaEntityRepository.findById(id).get();
+	public Optional<FruitaEntity> findById(int id) {
+		return fruitaEntityRepository.findById(id);
 	}
 
 }
